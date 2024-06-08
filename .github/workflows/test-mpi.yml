@@ -1,0 +1,33 @@
+name: Test MPI with CMake
+
+on: [push, pull_request]
+
+jobs:
+  test-mpi:
+    runs-on: macos-latest
+    name: Test MPI detection with CMake
+
+    env:
+      CC: gcc-14
+
+    steps:
+    - uses: actions/checkout@v4
+      name: Checkout source code
+
+    - name: Setup Homebrew
+      run: brew update
+
+    - name: Install MPI
+      run: brew install open-mpi
+
+    - name: Create a simple CMake project
+      run: mkdir build
+
+    - name: Configure the project with CMake
+      run: cmake -B build -S cmake_test -DCMAKE_PREFIX_PATH=${{ runner.temp }}
+
+    - name: Build the project
+      run: cmake --build build
+
+    - name: Run the executable
+      run: mpirun -np 2 ./build/test_mpi
