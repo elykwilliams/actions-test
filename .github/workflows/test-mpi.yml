@@ -8,6 +8,7 @@ jobs:
     name: Test MPI detection with CMake
 
     env:
+      HOMEBREW_NO_INSTALL_CLEANUP: 1
       CC: gcc-14
 
     steps:
