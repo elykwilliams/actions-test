@@ -1,4 +1,5 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.15...3.28)
+
 project(MPI_Test C)
 
 find_package(MPI COMPONENTS C REQUIRED)
