@@ -8,6 +8,19 @@ jobs:
     name: Test MPI detection with CMake
     timeout-minutes: 60
 
+    strategy:
+      matrix:
+        cc: [clang, gcc-14]
+        mpi: [true]
+        shared: [false]
+        include:
+        - shared: true
+          cc: clang
+    
+    env:
+      HOMEBREW_NO_INSTALL_CLEANUP: 1
+      CC: ${{ matrix.cc }}
+
     steps:
     - name: Checkout source code
       uses: actions/checkout@v4
