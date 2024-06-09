@@ -1,0 +1,25 @@
+runs:
+  using: "composite"
+
+  steps:
+  - name: CMake configure
+    shell: bash
+    run: >-
+      cmake --preset default
+      -DSC_ENABLE_MPI:BOOL=${{ matrix.mpi }}
+      --install-prefix=${{ runner.temp }}
+      -DBUILD_SHARED_LIBS:BOOL=${{ matrix.shared }}
+
+  - name: CMake print debug find
+    shell: bash
+    if: failure()
+    run: >-
+      cmake --preset default
+      -DSC_ENABLE_MPI:BOOL=${{ matrix.mpi }}
+      --install-prefix=${{ runner.temp }}
+      -DBUILD_SHARED_LIBS:BOOL=${{ matrix.shared }}
+      --debug-find --fresh
+
+  # - name: CMake build
+  #   shell: bash
+  #   run: cmake --build --preset default

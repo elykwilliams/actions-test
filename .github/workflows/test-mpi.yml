@@ -6,10 +6,11 @@ jobs:
   test-mpi:
     runs-on: macos-latest
     name: Test MPI detection with CMake
+    timeout-minutes: 60
 
     steps:
-    - uses: actions/checkout@v4
-      name: Checkout source code
+    - name: Checkout source code
+      uses: actions/checkout@v4
 
     - name: Setup Homebrew
       run: brew update
@@ -17,26 +18,8 @@ jobs:
     - name: Install MPI
       run: brew install open-mpi
 
-    - name: Create a simple CMake project
-      run: mkdir build
-
-    - name: Configure the project with CMake  
-      env:
-        CTEST_NO_TESTS_ACTION: error
-        CMAKE_BUILD_PARALLEL_LEVEL: 4
-        CTEST_PARALLEL_LEVEL: 0
-        HOMEBREW_NO_INSTALL_CLEANUP: 1
-        CC: gcc-14
-      shell: bash
-      run: >-
-        cmake --preset default
-        -DSC_ENABLE_MPI:BOOL=${{ matrix.mpi }}
-        --install-prefix=${{ runner.temp }}
-        -DBUILD_SHARED_LIBS:BOOL=${{ matrix.shared }}
-        -B build -S cmake_test
-
-    - name: Build the project
-      run: cmake --build build
+    - name: Cmake (configure, build)
+      uses: ./.github/actions/composite-cmake
 
     - name: Run the executable
       run: mpirun -np 2 ./build/test_mpi
