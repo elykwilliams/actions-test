@@ -21,14 +21,19 @@ jobs:
       run: mkdir build
 
     - name: Configure the project with CMake  
-      shell: /bin/bash --noprofile --norc -e -o pipefail {0}
       env:
         CTEST_NO_TESTS_ACTION: error
         CMAKE_BUILD_PARALLEL_LEVEL: 4
         CTEST_PARALLEL_LEVEL: 0
         HOMEBREW_NO_INSTALL_CLEANUP: 1
         CC: gcc-14
-      run: cmake -B build -S cmake_test --preset default --debug-find
+      shell: bash
+      run: >-
+        cmake --preset default
+        -DSC_ENABLE_MPI:BOOL=${{ matrix.mpi }}
+        --install-prefix=${{ runner.temp }}
+        -DBUILD_SHARED_LIBS:BOOL=${{ matrix.shared }}
+        -B build -S cmake_test
 
     - name: Build the project
       run: cmake --build build
