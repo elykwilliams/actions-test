@@ -10,6 +10,7 @@ jobs:
     env:
       HOMEBREW_NO_INSTALL_CLEANUP: 1
       CC: gcc-14
+      
 
     steps:
     - uses: actions/checkout@v4
@@ -25,7 +26,7 @@ jobs:
       run: mkdir build
 
     - name: Configure the project with CMake
-      run: cmake -B build -S cmake_test -DCMAKE_PREFIX_PATH=${{ runner.temp }}
+      run: cmake -B build -S cmake_test -DCMAKE_PREFIX_PATH=${{ runner.temp }} -DCMAKE_COMPILE_WARNING_AS_ERROR=true
 
     - name: Build the project
       run: cmake --build build
