@@ -7,14 +7,6 @@ jobs:
     runs-on: macos-latest
     name: Test MPI detection with CMake
 
-    env:
-      CTEST_NO_TESTS_ACTION: error
-      CMAKE_BUILD_PARALLEL_LEVEL: 4
-      CTEST_PARALLEL_LEVEL: 0
-      HOMEBREW_NO_INSTALL_CLEANUP: 1
-      CC: gcc-14
-      
-
     steps:
     - uses: actions/checkout@v4
       name: Checkout source code
@@ -30,7 +22,13 @@ jobs:
 
     - name: Configure the project with CMake  
       shell: /bin/bash --noprofile --norc -e -o pipefail {0}
-      run: cmake -B build -S cmake_test -DCMAKE_PREFIX_PATH=${{ runner.temp }} -DCMAKE_COMPILE_WARNING_AS_ERROR=true
+      env:
+        CTEST_NO_TESTS_ACTION: error
+        CMAKE_BUILD_PARALLEL_LEVEL: 4
+        CTEST_PARALLEL_LEVEL: 0
+        HOMEBREW_NO_INSTALL_CLEANUP: 1
+        CC: gcc-14
+      run: cmake -B build -S cmake_test --preset default --debug-find
 
     - name: Build the project
       run: cmake --build build
