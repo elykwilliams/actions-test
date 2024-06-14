@@ -30,6 +30,9 @@ jobs:
       uses: ./.github/actions/composite-cmake
       with:
         build_dir: ${{ runner.temp }}/build
+        
+    - name: List contents of the build directory
+      run: ls -l ${{ runner.temp }}/build
 
     - name: Run the executable
       run: mpirun -np 2 ${{ runner.temp }}/build/mpi_test
