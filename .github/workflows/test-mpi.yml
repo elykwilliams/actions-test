@@ -29,4 +29,4 @@ jobs:
     - name: Cmake (configure, build)
       uses: ./.github/actions/composite-cmake
       with:
-        build_dir: ${{ runner.temp }}/build
+        build_dir: ./build
