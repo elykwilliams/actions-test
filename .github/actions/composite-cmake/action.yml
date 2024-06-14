@@ -5,21 +5,8 @@ runs:
   - name: CMake configure
     shell: bash
     run: >-
-      cmake --preset default
-      -DSC_ENABLE_MPI:BOOL=${{ matrix.mpi }}
-      --install-prefix=${{ runner.temp }}
-      -DBUILD_SHARED_LIBS:BOOL=${{ matrix.shared }}
+      cmake -B build_dir -S ${{ github.workspace }}
 
-  - name: CMake print debug find
+  - name: CMake build
     shell: bash
-    if: failure()
-    run: >-
-      cmake --preset default
-      -DSC_ENABLE_MPI:BOOL=${{ matrix.mpi }}
-      --install-prefix=${{ runner.temp }}
-      -DBUILD_SHARED_LIBS:BOOL=${{ matrix.shared }}
-      --debug-find --fresh
-
-  # - name: CMake build
-  #   shell: bash
-  #   run: cmake --build --preset default
+    run: cmake --build build_dir

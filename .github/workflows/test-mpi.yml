@@ -33,6 +33,8 @@ jobs:
 
     - name: Cmake (configure, build)
       uses: ./.github/actions/composite-cmake
+      with:
+        build_dir: ${{ runner.temp }}/build
 
     - name: Run the executable
-      run: mpirun -np 2 build/test_mpi
+      run: mpirun -np 2 ${{ runner.temp }}/build/mpi_test
