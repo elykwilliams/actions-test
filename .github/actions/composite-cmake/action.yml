@@ -5,8 +5,8 @@ runs:
   - name: CMake configure
     shell: bash
     run: >-
-      cmake -B build_dir -S ${{ github.workspace }}
+      cmake -B ${{ inputs.build_dir }} -S ${{ github.workspace }}
 
   - name: CMake build
     shell: bash
-    run: cmake --build build_dir
+    run: cmake --build ${{ inputs.build_dir }}
