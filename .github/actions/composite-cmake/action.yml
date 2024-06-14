@@ -14,12 +14,12 @@ runs:
   - name: CMake Configure
     shell: bash
     run: >-
-      cmake -B ${{ inputs.build_dir }} -S ${{ github.workspace }}
+      cmake -B ${{ inputs.build_dir }} -S ${{ github.workspace }} --preset default
 
   - name: CMake Build
     shell: bash
-    run: cmake --build ${{ inputs.build_dir }}
+    run: cmake --build ${{ inputs.build_dir }} --preset default
     
   - name: Cmake Test
     shell: bash
-    run: ctest --test-dir ${{ inputs.build_dir }}
+    run: ctest --test-dir ${{ inputs.build_dir }} --preset default

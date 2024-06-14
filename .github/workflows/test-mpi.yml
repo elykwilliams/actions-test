@@ -2,6 +2,11 @@ name: Test MPI with CMake
 
 on: [push, pull_request]
 
+env:
+  CTEST_NO_TESTS_ACTION: "error"
+  CMAKE_BUILD_PARALLEL_LEVEL: 4
+  CTEST_PARALLEL_LEVEL: 0
+
 jobs:
   test-mpi:
     runs-on: macos-latest
